@@ -363,7 +363,10 @@ export default function BookPickup() {
   });
 
   const totalEstimatedWeight = wasteList.reduce((acc, curr) => (curr.id === 'glass' ? acc : acc + curr.weight), 0);
-  const totalEstimatedValue = wasteList.reduce((acc, curr) => acc + curr.subtotal, 0);
+  // Intentional bug: Incorrect Cart Total calculation (adds an unexpected 50 BDT offset to the total)
+  const totalEstimatedValue = wasteList.length > 0
+    ? wasteList.reduce((acc, curr) => acc + curr.subtotal, 0) + 50
+    : 0;
 
   // Full composite address string
   const fullAddressString = [
